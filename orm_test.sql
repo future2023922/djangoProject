@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80023
 File Encoding         : 65001
 
-Date: 2023-10-26 10:31:05
+Date: 2023-10-26 13:35:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -61,7 +61,7 @@ CREATE TABLE `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of auth_permission
@@ -126,6 +126,14 @@ INSERT INTO `auth_permission` VALUES ('57', 'Can add city', '15', 'add_city');
 INSERT INTO `auth_permission` VALUES ('58', 'Can change city', '15', 'change_city');
 INSERT INTO `auth_permission` VALUES ('59', 'Can delete city', '15', 'delete_city');
 INSERT INTO `auth_permission` VALUES ('60', 'Can view city', '15', 'view_city');
+INSERT INTO `auth_permission` VALUES ('61', 'Can add category', '16', 'add_category');
+INSERT INTO `auth_permission` VALUES ('62', 'Can change category', '16', 'change_category');
+INSERT INTO `auth_permission` VALUES ('63', 'Can delete category', '16', 'delete_category');
+INSERT INTO `auth_permission` VALUES ('64', 'Can view category', '16', 'view_category');
+INSERT INTO `auth_permission` VALUES ('65', 'Can add product', '17', 'add_product');
+INSERT INTO `auth_permission` VALUES ('66', 'Can change product', '17', 'change_product');
+INSERT INTO `auth_permission` VALUES ('67', 'Can delete product', '17', 'delete_product');
+INSERT INTO `auth_permission` VALUES ('68', 'Can view product', '17', 'view_product');
 
 -- ----------------------------
 -- Table structure for auth_user
@@ -246,7 +254,7 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of django_content_type
@@ -260,10 +268,12 @@ INSERT INTO `django_content_type` VALUES ('5', 'contenttypes', 'contenttype');
 INSERT INTO `django_content_type` VALUES ('6', 'sessions', 'session');
 INSERT INTO `django_content_type` VALUES ('11', 'staffing_system', 'admin');
 INSERT INTO `django_content_type` VALUES ('14', 'staffing_system', 'bossinfo');
+INSERT INTO `django_content_type` VALUES ('16', 'staffing_system', 'category');
 INSERT INTO `django_content_type` VALUES ('15', 'staffing_system', 'city');
 INSERT INTO `django_content_type` VALUES ('8', 'staffing_system', 'department');
 INSERT INTO `django_content_type` VALUES ('13', 'staffing_system', 'order');
 INSERT INTO `django_content_type` VALUES ('10', 'staffing_system', 'prettynum');
+INSERT INTO `django_content_type` VALUES ('17', 'staffing_system', 'product');
 INSERT INTO `django_content_type` VALUES ('12', 'staffing_system', 'task');
 INSERT INTO `django_content_type` VALUES ('9', 'staffing_system', 'userinfo');
 
@@ -277,7 +287,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of django_migrations
@@ -318,6 +328,7 @@ INSERT INTO `django_migrations` VALUES ('33', 'staffing_system', '0007_order', '
 INSERT INTO `django_migrations` VALUES ('34', 'staffing_system', '0008_alter_userinfo_password', '2023-05-20 02:36:44.870049');
 INSERT INTO `django_migrations` VALUES ('35', 'staffing_system', '0009_bossinfo', '2023-05-21 13:16:43.162288');
 INSERT INTO `django_migrations` VALUES ('36', 'staffing_system', '0010_city', '2023-05-22 09:41:25.322004');
+INSERT INTO `django_migrations` VALUES ('37', 'staffing_system', '0011_category_product_alter_city_img', '2023-10-26 03:04:01.184166');
 
 -- ----------------------------
 -- Table structure for django_session
@@ -337,9 +348,10 @@ CREATE TABLE `django_session` (
 INSERT INTO `django_session` VALUES ('05xbr48pmccxrj3dso3vasjh3opdfbzb', 'eyJpbWFnZV9jb2RlIjoiVVlJTUMiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qZ4Qx:O-owO_D0GUkDJuOdO2sNUPsSNr5OgDotFShxPBJCT_4', '2023-08-24 07:08:11.667915');
 INSERT INTO `django_session` VALUES ('0lwb7ebh1chpxxyz4qs6x3w5q9c5p5sk', 'eyJpbWFnZV9jb2RlIjoiV0RDTUgiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1q0Cb7:ygYMhDBnMzFuXz5R5-VKA3jstZuBHPQcP87NRhaN6tI', '2023-05-20 02:46:33.172195');
 INSERT INTO `django_session` VALUES ('0lz0j71vwbbe6qk1qncuydljxu1iws5a', 'eyJpbWFnZV9jb2RlIjoiRk1aVVYiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1q0CUw:OJBNlz9sfTTc8a48USM_dELaTBVxowzpKe_k2Aq0ZrQ', '2023-05-20 02:40:10.195341');
+INSERT INTO `django_session` VALUES ('1rkk0dfu1quv7ydxtsdqv57fytt0nhmc', 'eyJpbWFnZV9jb2RlIjoiUkFRQkQiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qvqln:RfrR6EExG6RKpHOpECW6phAFezWAHn1xZdp8xFCy0I8', '2023-10-26 03:11:51.563246');
 INSERT INTO `django_session` VALUES ('2ns8xogc2x6an6rxhi3ay92879m4frb9', 'eyJpbWFnZV9jb2RlIjoiR0NOT0QiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1pylfm:vVwSFo5vyJ0t9z0SSzINeGMBsGcNiYE7RG5RnGtx68w', '2023-05-16 03:49:26.869051');
 INSERT INTO `django_session` VALUES ('3c05eky829m35uiv4dodh6utryjearqy', 'eyJpbWFnZV9jb2RlIjoiWEFMUVciLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qZ4W7:c26jAJ1CXemt0ePid2WT-XxLtHPSQ26a23zN7R51vqU', '2023-08-24 07:13:31.201073');
-INSERT INTO `django_session` VALUES ('3cn7921rby5xw7lzt330s6rnkce10nrq', 'eyJpbWFnZV9jb2RlIjoiQkJYUUkiLCJfc2Vzc2lvbl9leHBpcnkiOjYwNDgwMCwiaW5mbyI6eyJpZCI6MTYsIm5hbWUiOiJcdTUxNGRcdThkMzkifX0:1qvpWf:P7c-0CEF1jRUsTy5qcdlRlMActRhoqT4qbQV49zLU-Q', '2023-11-02 01:51:09.918278');
+INSERT INTO `django_session` VALUES ('3cn7921rby5xw7lzt330s6rnkce10nrq', 'eyJpbWFnZV9jb2RlIjoiV1BQQ1MiLCJfc2Vzc2lvbl9leHBpcnkiOjYwLCJpbmZvIjp7ImlkIjoxNiwibmFtZSI6Ilx1NTE0ZFx1OGQzOSJ9fQ:1qvqe1:eLSLKwA4cXU6AFf8R5lqFYEeJqxeaC_9rqGsFo7yW70', '2023-10-26 03:03:49.169804');
 INSERT INTO `django_session` VALUES ('3dur60wf7qmdvurq8brgbixzfz7vswym', 'eyJpbWFnZV9jb2RlIjoiVURDQkQiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qCM0h:rT1ZWqRtV8STS0V9bkkI3DfY2UBb1NQnMrQ-UnkgBIE', '2023-06-22 15:15:11.667778');
 INSERT INTO `django_session` VALUES ('4tmb9zxllgb102uwmxp9v63djp8tbjjf', 'eyJpbWFnZV9jb2RlIjoiRlBQUUIiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1pyYZw:ZcFTisg9z43NRW0AL1ew2nFAb8g62CLX0dLX9y29URU', '2023-05-15 13:50:32.361508');
 INSERT INTO `django_session` VALUES ('58omrrqe2gwyvmgxj3k5oan87webj5i1', 'eyJpbWFnZV9jb2RlIjoiQ0dYTkIiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJc6p:lWShqxJ4-eZPRCy6N29kemIrWJP7EbnOLQyqOyo6uDE', '2023-07-12 15:51:31.953587');
@@ -349,6 +361,7 @@ INSERT INTO `django_session` VALUES ('5r5vs2xkxnwf4wflll395uho45p29h7x', 'eyJpbW
 INSERT INTO `django_session` VALUES ('61py8gwywz4j7wyntkr1ergfrro7hp43', 'eyJpbWFnZV9jb2RlIjoiUVBEQkYiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1q0BzW:w3BgogqABYUPbHQIUj6BAnR4w_UIDlXheRuHE3WpGJk', '2023-05-20 02:07:42.877984');
 INSERT INTO `django_session` VALUES ('69qvlrzgt1qioarca3vn4qcqw05f60t7', 'eyJpbWFnZV9jb2RlIjoiWlJXQVoiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJcEO:KhoZwgvQmRhRRm7WV_ZFoOuSAl0guDn8704t2oPI-qg', '2023-07-12 15:59:20.897166');
 INSERT INTO `django_session` VALUES ('6uu55wtzvdiztk8v2gaviylw6rownw6g', 'eyJpbWFnZV9jb2RlIjoiUkdERUwiLCJfc2Vzc2lvbl9leHBpcnkiOjYwNDgwMCwiaW5mbyI6eyJpZCI6MSwibmFtZSI6Im9vb28ifX0:1qRap5:IuCLKMqOGt8oEPxPSO-p4ZNWUGDK0by5Sqn0NhW4J7o', '2023-08-10 16:05:11.484933');
+INSERT INTO `django_session` VALUES ('854f6glzqt58unrz7mhzxqaa9r9szumh', 'eyJpbWFnZV9jb2RlIjoiQUhCS1MiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qvsnm:cWvn84W0z6Lzm8DVIDbY7aESqowHmTTaJMMzKkfV7WA', '2023-10-26 05:22:02.564043');
 INSERT INTO `django_session` VALUES ('8heb8d8d6qaf4q83t6wlz60ohns7om7t', 'eyJpbWFnZV9jb2RlIjoiQUJGRk0iLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1pym7q:DdIKTPaVDXyQXpLoEjeEJbY-cA1gqKVDmVeweQJC0vw', '2023-05-16 04:18:26.664698');
 INSERT INTO `django_session` VALUES ('8xc5198viejjyhb1pgl22hg4t6j429nt', 'eyJpbWFnZV9jb2RlIjoiTVhZS0QiLCJfc2Vzc2lvbl9leHBpcnkiOjYwNDgwMCwiaW5mbyI6eyJpZCI6MTYsIm5hbWUiOiJcdTUxNGRcdThkMzkifX0:1qvBOM:e34e4B_Kt0vXmPMyKELK8U7uel0FbUSsxuE-C6pZY1Q', '2023-10-31 06:59:54.273881');
 INSERT INTO `django_session` VALUES ('8ys4te177l3t1zdn41g53wtsw7xa18ze', 'eyJpbWFnZV9jb2RlIjoiTVVERVIiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJbsz:zRtFBufJki2b7v5X6cNmHCqjVnuauWTRdR91GVgaUZE', '2023-07-12 15:37:13.018922');
@@ -361,8 +374,11 @@ INSERT INTO `django_session` VALUES ('bcs8lc713s3uuapsq74vaihs93oejqpj', 'eyJpbW
 INSERT INTO `django_session` VALUES ('bwej43cc8zz2ps0p9lhd2h09hm0kzesz', 'eyJpbWFnZV9jb2RlIjoiWkxMSlUiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qCLuy:VX1ZolD4b2slAy3Av7CRLUOr6042-PC2PI7yoPfCxTc', '2023-06-22 15:09:16.128078');
 INSERT INTO `django_session` VALUES ('c3y0s1jvcj93gocleozjdnrzex3o06eu', 'eyJpbWFnZV9jb2RlIjoiUFJHT1YiLCJfc2Vzc2lvbl9leHBpcnkiOjYwLCJpbmZvIjp7ImlkIjo2LCJuYW1lIjoiXHU0ZTAwXHU2ODM5XHU3MzJiXHU2NzYxIn19:1q0BxM:6MXDSDF_tynP27ICipIj6vAUvr58cHiLhkBe09EjCUk', '2023-05-20 02:05:28.250330');
 INSERT INTO `django_session` VALUES ('d40j76iziu8k3yhx954lx0medpg3doz5', 'eyJpbWFnZV9jb2RlIjoiUFhQRVIiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJcOw:2MGmNSeMXM6-wqRLUK9hlMYsbJViUJdm_s4EbgYZ2YI', '2023-07-12 16:10:14.192975');
+INSERT INTO `django_session` VALUES ('dd01eie3hz06i3qbyfspbwasq4uclgp8', 'eyJpbWFnZV9jb2RlIjoiQk5DWEsiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qvqpQ:WMl6DaEd7O6MLPmYTklZNI1ScekiHM9zre00-9Lq-Cc', '2023-10-26 03:15:36.003494');
 INSERT INTO `django_session` VALUES ('f6dq5k251evexzkz33afphrqfsos2zdp', 'eyJpbWFnZV9jb2RlIjoiRlNTQUoiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJcK8:RCaniZe11_lHb74_vI599HuIrdJMvd7K8_C6HqNN8qs', '2023-07-12 16:05:16.659605');
 INSERT INTO `django_session` VALUES ('fcgnkd6nhlyygjtf3ujrmcq8evm4hrc6', 'eyJpbWFnZV9jb2RlIjoiQURHSVMiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1pypDB:tn6AZxi1jiv8IqodElhw-MCUuAz4ydTDwBgxWXXv9_U', '2023-05-16 07:36:09.873172');
+INSERT INTO `django_session` VALUES ('fsjkmwuc058lyp83ub5pso99v4geldct', 'eyJpbWFnZV9jb2RlIjoiWUVFVVAiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qvqur:UeMzy1XwNX5ekmdTIcqZG7LL2jmRZ6YUUPP9Ias2cJE', '2023-10-26 03:21:13.491658');
+INSERT INTO `django_session` VALUES ('gtqv0egfv2ljgrv1ctcvemhxe8tod5on', 'eyJpbWFnZV9jb2RlIjoiWlFKU0siLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qvqtr:WwfkEU0eVSFDD0F_uKjpUOi6wlWerfLIbaaOC0T01Xo', '2023-10-26 03:20:11.341352');
 INSERT INTO `django_session` VALUES ('gy6ent0xii9bs8vdfz4ndry0m7tivn60', 'eyJpbWFnZV9jb2RlIjoiQ05IWVYiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJbYL:2d6ojVSniHQyjVDfoFKA8DnP2uAKVoOg6VZWWkmTZrE', '2023-07-12 15:15:53.623424');
 INSERT INTO `django_session` VALUES ('h0sqxc221n6fiqjq5p9fb6rfw9s1iok1', 'eyJpbWFnZV9jb2RlIjoiWk5LS08iLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJc37:XXBeXg4EAc-CytR4srKvQMAybf7It5DA5pTlRZzIQ_s', '2023-07-12 15:47:41.737184');
 INSERT INTO `django_session` VALUES ('h84mnuoapxle7hporimw7wpmsg6q76bi', 'eyJpbWFnZV9jb2RlIjoiSlRFT0QiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJbft:N5E2MBAxsyeUYB4BSk1phim_i7egpOfz-mx6Z_RCp3g', '2023-07-12 15:23:41.193968');
@@ -373,11 +389,14 @@ INSERT INTO `django_session` VALUES ('kgu68eu4gp00d3r0tb3099vdjbie3uo8', 'eyJpbW
 INSERT INTO `django_session` VALUES ('lobk4gguajvzgm8jr4bhcs57vxeb1i4e', 'eyJpbWFnZV9jb2RlIjoiU1hXVUgiLCJfc2Vzc2lvbl9leHBpcnkiOjYwNDgwMCwiaW5mbyI6eyJpZCI6MTYsIm5hbWUiOiJcdTUxNGRcdThkMzkifX0:1q0ejy:x_RiOul0yBWDOxhiwJwyWxII_79ejQ4xz7BgpDx7dUA', '2023-05-28 08:48:34.286851');
 INSERT INTO `django_session` VALUES ('luwpo7ctxqgwpvvdpohlwpj759fhwrwc', 'eyJpbWFnZV9jb2RlIjoiT0RFV0oiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qZ4Up:HE7Eb96wCwEQ_jwLsDpmkDzEREs4kcaZccjtQeJtOzw', '2023-08-24 07:12:11.672506');
 INSERT INTO `django_session` VALUES ('m9n546xrqp2ac16s6cilolmv8mroens4', 'eyJpbWFnZV9jb2RlIjoiR0lBUkgiLCJfc2Vzc2lvbl9leHBpcnkiOjYwNDgwMCwiaW5mbyI6eyJpZCI6MTYsIm5hbWUiOiJcdTUxNGRcdThkMzkifX0:1q5dbe:CSdoDbChyJEZ5Pq9sXAqNBoiGslx75jNnxXdTCXZWCU', '2023-06-11 02:36:34.082027');
+INSERT INTO `django_session` VALUES ('meb8szxzt67p1emwv6lafiiwf1n6n0mt', 'eyJpbWFnZV9jb2RlIjoiR0JBSFQiLCJfc2Vzc2lvbl9leHBpcnkiOjYwLCJpbmZvIjp7ImlkIjoxOSwibmFtZSI6Ilx1NTE0ZFx1OGQzOSJ9fQ:1qvr76:kpPJFT7pnu5SpG51X7NSH9a4qRuTvGXhoV8tbc7Y6AY', '2023-10-26 03:33:52.224700');
+INSERT INTO `django_session` VALUES ('moum89u2bvt6rj6pjd504sfd7n5peygv', 'eyJpbWFnZV9jb2RlIjoiSFFaUloiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qvqjB:KTMp_y6VLI-nK2jPJj_QMQHSxBMDWeka2GewcG9uSXU', '2023-10-26 03:09:09.474888');
 INSERT INTO `django_session` VALUES ('ny2ll9syp2yb6utx3zbl698o3hzi58t8', 'eyJpbWFnZV9jb2RlIjoiU1JFVEwiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJcgO:ILX0aCnTKe5XiDaCmD_ip1XHjlZMfZHXQLrnUwTIyKs', '2023-07-12 16:28:16.322773');
 INSERT INTO `django_session` VALUES ('otch9js019c0emi6ow05qf0msofwg3ld', 'eyJpbWFnZV9jb2RlIjoiT0pWSkwiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJbIh:ST609MIFIiwoS664Dpms4irDcyFra6nM8D_-J4ieLi4', '2023-07-12 14:59:43.145949');
 INSERT INTO `django_session` VALUES ('p42k9vtfkmjcwaekgqg952ls7ewxwr1w', 'eyJpbWFnZV9jb2RlIjoiVE5KQ0QiLCJfc2Vzc2lvbl9leHBpcnkiOjYwNDgwMCwiaW5mbyI6eyJpZCI6MTAsIm5hbWUiOiJ3dyJ9fQ:1qJqlu:WMIhsnt7fz2q1lJwCteV1vfuKYiylFzk5MVzIxdduEw', '2023-07-20 07:29:54.022931');
 INSERT INTO `django_session` VALUES ('ro1jg0a9e76zdkpg2n6j71ee0fq7v5wv', 'eyJpbWFnZV9jb2RlIjoiWldJVkoiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJcho:mFD6hw6wmzIPRVATh849g-7L9gcSfr1qtRwqHrErb0U', '2023-07-12 16:29:44.826879');
 INSERT INTO `django_session` VALUES ('rubk9drmj06h7lv2qayt5qfrnve3mk67', 'eyJpbWFnZV9jb2RlIjoiVkZWVFAiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qRamP:G0vWP9Qt27P44J5EvOoch12kwIR-KivUFhNWh6ywZo4', '2023-08-03 16:03:25.880890');
+INSERT INTO `django_session` VALUES ('shhdmid5kuydfjede5gl9kov4c9c9wyk', 'eyJpbWFnZV9jb2RlIjoiVFFBQVEiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qvqgI:znElTjcxPuyjfL8njNrV0K5Hn80_a_Yuclp1V77qAPY', '2023-10-26 03:06:10.366246');
 INSERT INTO `django_session` VALUES ('sxryi4d1jkps9m6vdlcmfp4pl0d18ll2', 'eyJpbWFnZV9jb2RlIjoiTFJDR1IiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJboN:MWm7R5ZuiDBYvxOe43yjAz-ke-tDw_yOoYLGa4KvLSQ', '2023-07-12 15:32:27.212478');
 INSERT INTO `django_session` VALUES ('tzdbkxhcjlql0zm6gtl8czhv6dkjeyyt', 'eyJpbWFnZV9jb2RlIjoiU1dYVUYiLCJfc2Vzc2lvbl9leHBpcnkiOjYwNDgwMCwiaW5mbyI6eyJpZCI6MSwibmFtZSI6Im9vb28ifX0:1qRZlr:QUy-orvvD2z4nZN3TnP0fbToxAqMVeTs2GSlUUwqrCo', '2023-08-10 14:57:47.588357');
 INSERT INTO `django_session` VALUES ('ua4vsz7bqi8g8npn66uonankx8plvkx4', 'eyJpbmZvIjp7ImlkIjo2LCJuYW1lIjoiXHU0ZTAwXHU2ODM5XHU3MzJiXHU2NzYxIn19:1pxg9x:d8-_r1D-Hwq2WOiqo0EpEj1UVfwDQzhs1dsONB4bsD4', '2023-05-27 03:43:05.609807');
@@ -386,6 +405,7 @@ INSERT INTO `django_session` VALUES ('vk3aig788gekg7fha03a6ewgm5x5zad6', 'eyJpbW
 INSERT INTO `django_session` VALUES ('vwtdq1m61jds4aa8ib5pdquc23af7tmn', 'eyJpbWFnZV9jb2RlIjoiQkpPTVAiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJbkS:ypc0md8-P50LjWLmUvDPVhMhvmSNNSnz8YFfFd2H0uk', '2023-07-12 15:28:24.884860');
 INSERT INTO `django_session` VALUES ('x12u7xaw6rtbbpinj3qqcd11d3oqc808', 'eyJpbWFnZV9jb2RlIjoiTVZPQ1oiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qJccI:mN1LsT4r9mLl1pGECQEJlrAPWUct-e6eU_3NeKh284k', '2023-07-12 16:24:02.698103');
 INSERT INTO `django_session` VALUES ('x2lcf9jrwrpe4kj8bgowbb7knf3vxwzp', 'eyJpbWFnZV9jb2RlIjoiRk5OWk0iLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1pylqk:9F_sEQjVri8uPVlxHFj71M4WjpRPmnBF9jbmZ1oNTQc', '2023-05-16 04:00:46.135719');
+INSERT INTO `django_session` VALUES ('zhc99dtsfzp0fa839h4f9n3ezni9a7qi', 'eyJpbWFnZV9jb2RlIjoiRkhVUEoiLCJfc2Vzc2lvbl9leHBpcnkiOjYwfQ:1qvr2h:eMCZLvfkxMTmSXGGM7lBQIjxK009yySiQOb0CZOrxE4', '2023-10-26 03:29:19.062091');
 
 -- ----------------------------
 -- Table structure for staffing_system_admin
@@ -425,6 +445,20 @@ CREATE TABLE `staffing_system_bossinfo` (
 INSERT INTO `staffing_system_bossinfo` VALUES ('1', '强请', '12', 'staffing_system\\static\\img\\avatar - 副本.jpg');
 INSERT INTO `staffing_system_bossinfo` VALUES ('2', '威威', '11', 'static\\img\\logo-tux.png');
 INSERT INTO `staffing_system_bossinfo` VALUES ('3', 'tt', '45', 'media\\1624349014058-jtd1hi.jpg');
+
+-- ----------------------------
+-- Table structure for staffing_system_category
+-- ----------------------------
+DROP TABLE IF EXISTS `staffing_system_category`;
+CREATE TABLE `staffing_system_category` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of staffing_system_category
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for staffing_system_city
@@ -812,6 +846,21 @@ INSERT INTO `staffing_system_prettynum` VALUES ('315', '19989898989', '0', '1', 
 INSERT INTO `staffing_system_prettynum` VALUES ('316', '19989898989', '0', '1', '0');
 
 -- ----------------------------
+-- Table structure for staffing_system_product
+-- ----------------------------
+DROP TABLE IF EXISTS `staffing_system_product`;
+CREATE TABLE `staffing_system_product` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `create_time` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of staffing_system_product
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for staffing_system_task
 -- ----------------------------
 DROP TABLE IF EXISTS `staffing_system_task`;
@@ -847,9 +896,10 @@ CREATE TABLE `staffing_system_userinfo` (
   PRIMARY KEY (`id`),
   KEY `staffing_system_user_depart_id_cd8052a1_fk_staffing_` (`depart_id`),
   CONSTRAINT `staffing_system_user_depart_id_cd8052a1_fk_staffing_` FOREIGN KEY (`depart_id`) REFERENCES `staffing_system_department` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of staffing_system_userinfo
 -- ----------------------------
 INSERT INTO `staffing_system_userinfo` VALUES ('18', '冰墩墩', 'f0524b2b8f0bec1209c55d247b2f7509', '22', '232.00', '2023-10-20', '1', '10');
+INSERT INTO `staffing_system_userinfo` VALUES ('19', '免费', 'mf', '12', '1231.00', '2023-10-26', '1', '8');
