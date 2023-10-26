@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container" >
+    {#    enctype="multipart/form-data"加上该属性，会从只传输图片名字到传输图片文件本身 #}
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" name="username">
+            <input type="file" name="avatar">
+            <input type="submit" value="提交">
+        </form>
+    </div>
+
+
+{% endblock %}

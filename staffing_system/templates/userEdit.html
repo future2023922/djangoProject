@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">编辑用户(ModelForm版)</h3>
+            </div>
+            <div class="panel-body">
+{#            novalidate:先关掉浏览器的校验  #}
+                <form class="form-horizontal" method="post" novalidate>
+                    {% csrf_token %}
+                    {% for obj in form %}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">{{ obj.label }}</label>
+                            <div class="col-sm-10">
+                                {{ obj }}
+                                <span style="color:red">{{ obj.errors }}</span>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary">保存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}

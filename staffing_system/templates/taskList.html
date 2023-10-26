@@ -1,0 +1,188 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <div class="panel panel-default">
+          <div class="panel-heading">添加任务信息</div>
+          <div class="panel-body" >
+              <form id="addForm" >
+                   {% for obj in form %}
+                    <div class="col-xs-6 form-group " >
+                        <div class="col-sm-10" style="margin-bottom: 25px;position: relative">
+                            <label class="control-label">{{ obj.label }}</label>
+                            {{ obj }}
+                            <span style="color: red;position: absolute" class="error-msg">{{ obj.errors }}</span>
+                        </div>
+
+                    </div>
+                {% endfor %}
+                <div>
+                    <button id="btnAdd" type="button" class="btn btn-primary col-xs-12"  style="width: 100px">提交</button>
+                </div>
+
+              </form>
+          </div>
+
+        </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>级别</th>
+                <th>标题</th>
+                <th>详细信息</th>
+                <th>负责人</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for obj in queryset %}
+                    <tr>
+                        <th scope="row">{{ obj.id }}</th>
+{#                        get_level_display显示在models中写的数字 #}
+                        <td>{{ obj.get_level_display }}</td>
+                        <td>{{ obj.title }}</td>
+                        <td>{{ obj.get_level_display }}</td>
+                        <td>{{ obj.admin }}</td>
+
+                        <td>
+                            <a href="#" class="btn btn-primary btn-xs">编辑</a>
+                            <a href="#" class="btn btn-danger btn-xs">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                    </tbody>
+                </table>
+        <ul class="pagination">
+            {{ page_string }}
+        </ul>
+
+        <hr/>
+        <h1>ajax学习</h1>
+        <h2>示例1--发送get请求和post请求</h2>
+        <input id="btn1" type="button" class="btn btn-primary" value="点击" />
+
+        <h2>示例2--获取输入框的信息</h2>
+        用户名:<input type="text" id="inputUsername"/>
+        密码:<input type="text" id="inputPwd"/>
+        <input id="btn2" type="button" class="btn btn-primary" value="点击" />
+
+        <form id="form3">
+            <h2>示例3--直接获取form表单信息</h2>
+            用户名:<input type="text" name="inputUsername"/>
+            密码:<input type="text" name="inputPwd"/>
+            <input id="btn3" type="button" class="btn btn-primary" value="点击" />
+        </form>
+
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+{#    页面加载完成之后，代码自动执行#}
+        $(function (){
+            bindBtn1Event();
+            bindBtn2Event();
+            bindBtn3Event();
+            {# 项目#}
+            bindBtnAddEvent();
+
+        })
+
+        {# 示例1--发送get请求和post请求 #}
+        function bindBtn1Event(){
+            $("#btn1").click(function (){
+                $.ajax({
+                url:"/task/ajax/",
+                type:"post",
+                data:{
+                    {#示例1#}
+                    n1:"123",
+                    n2:"456",
+                },
+                dataType: "JSON",
+                success:function (res){
+                    console.log(res)
+                }
+            })
+
+            })
+        }
+
+        {# 示例2--获取输入框的信息 #}
+        function bindBtn2Event(){
+            $("#btn2").click(function (){
+                $.ajax({
+                url:"/task/ajax/",
+                type:"post",
+                data:{
+{#                    示例2#}
+                    username: $("#inputUsername").val(),
+                    pwd: $("#inputPwd").val(),
+
+                },
+                dataType: "JSON",
+                success:function (res){
+                    console.log(res)
+                    console.log(res.username)
+                    console.log(res.pwd)
+                }
+            })
+
+            })
+        }
+
+        {# 示例3--直接获取form表单信息 #}
+        function bindBtn3Event(){
+            $("#btn3").click(function (){
+                $.ajax({
+                url:"/task/ajax/",
+                type:"post",
+                data: $("#form3").serialize(),
+                dataType: "JSON",
+                success:function (res){
+                    console.log(res)
+                    console.log(res.inputUsername)
+                }
+            })
+
+            })
+        }
+
+        {# 添加任务信息 #}
+        function bindBtnAddEvent(){
+            $("#btnAdd").click(function (){
+
+                {# 点击提交时先将错误信息置空 #}
+                $(".error-msg").empty()
+
+                $.ajax({
+                url:"/task/add/",
+                type:"post",
+                data: $("#addForm").serialize(),
+                dataType: "JSON",
+                success:function (res){
+                    console.log(res)
+                    if(res.status){
+                        alert("添加成功")
+                        $("#addForm")[0].reset()
+                        location.reload()
+                    }else{
+                    {#    添加失败提示错误信息#}
+                        error = res.error
+                        {# 把有错误的对应提示提取出来 #}
+                        $.each(error,function (name,data){
+                            {#console.log(name,data[0])#}
+{#                            在对应的输入框下显示错误信息 #}
+                            $("#id_"+name).next().text(data[0])
+                        })
+                    }
+                }
+
+            })
+
+            })
+        }
+
+    </script>
+{% endblock %}

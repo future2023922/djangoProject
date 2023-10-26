@@ -1,0 +1,304 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <!-- Button trigger modal -->
+        {#    data-toggle="modal" data-target="#myModal" 点击就能出现弹窗 #}
+        {#        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">#}
+        {#            新建订单1#}
+        {#        </button>#}
+
+        {#    id="btnAdd" js绑定事件显示弹窗 #}
+        <button id="btnAdd" type="button" class="btn btn-primary btn-lg">
+            新建订单2
+        </button>
+
+        <!-- 新建/编辑订单Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formModal">
+                            {% for obj in form %}
+                                <div class="col-xs-6 form-group ">
+                                    <div class="col-sm-10" style="margin-bottom: 25px;position: relative">
+                                        <label class="control-label">{{ obj.label }}</label>
+                                        {{ obj }}
+                                        <span style="color: red;position: absolute"
+                                              class="error-msg">{{ obj.errors }}</span>
+                                    </div>
+
+                                </div>
+                            {% endfor %}
+
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        {#                        data-dismiss="modal" 点击取消就关闭弹窗 #}
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button id="btnSave" type="button" class="btn btn-primary">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {#    删除订单 #}
+        <!-- Modal -->
+        <div class="modal fade" id="deleteMyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-bottom: 0">
+                        <h4>确认是否删除</h4>
+                        <p>删除后所有相关联的数据都会被删除，确定删除吗</p>
+                        <p style="text-align: right">
+                            <button id="btnConfirmDelete" type="button" class="btn btn-danger">确定</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {#        订单列表#}
+        <table class="table table-bordered" style="margin-top: 20px">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>订单号</th>
+                <th>订单名称</th>
+                <th>价格</th>
+                <th>状态</th>
+                <th>管理员</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in queryset %}
+                <tr uid= {{ obj.id }}>
+                    <th scope="row">{{ obj.id }}</th>
+                    {#                        get_level_display显示在models中写的数字 #}
+                    <td>{{ obj.oid }}</td>
+                    <td>{{ obj.title }}</td>
+                    <td>{{ obj.price }}</td>
+                    <td>{{ obj.get_status_display }}</td>
+                    <td>{{ obj.admin }}</td>
+
+                    <td>
+                        <a href="#" uid="{{ obj.id }}" class="btn btn-primary btn-xs btnEdit">编辑</a>
+                        {#                        data-dismiss="alert" 绑定删除弹框#}
+                        <input type="button" uid="{{ obj.id }}" class="btn btn-danger btn-xs btnDelete"
+                               data-dismiss="alert" value="删除">
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        <ul class="pagination">
+            {{ page_string }}
+        </ul>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+
+    <script type="text/javascript">
+        {#    设置全局变量#}
+        var DELETE_ID;
+        {# 跟据有无定义区分是添加还是编辑 #}
+        var EDIT_ID;
+
+        {# 绑定事件 #}
+        $(function () {
+            bindBtnAddEvent();
+            bindBtnSaveEvent();
+            bindBtnDeleteEvent();
+            bindBtnConfirmDeleteEvent();
+            bindBtnDetailEvent();
+        })
+
+        function bindBtnAddEvent() {
+            $("#btnAdd").click(function () {
+                EDIT_ID = undefined
+                console.log(EDIT_ID)
+                {# 将新建订单的弹窗清空，以免点击编辑按钮时，某行数据还在弹窗内 #}
+                $("#formModal")[0].reset()
+
+                $('#myModalLabel').text("新建")
+
+                $('#myModal').modal('show')
+            });
+        }
+
+        function bindBtnSaveEvent() {
+            $("#btnSave").click(function () {
+
+                {# 点击提交时先将错误信息置空 #}
+                $(".error-msg").empty()
+
+                if (EDIT_ID) {
+                    doEdit()
+                } else {
+                    doAdd()
+                }
+
+            })
+        }
+
+        function doAdd() {
+            $.ajax({
+                url: "/order/add/",
+                type: "post",
+                data: $("#formModal").serialize(),
+                dataType: "JSON",
+                success: function (res) {
+                    console.log(res)
+                    if (res.status) {
+                        alert("添加成功")
+                        {# $("#formModal")是jquery对象，$("#formModal")[0]是dom对象 #}
+                        {#                        清空表单#}
+                        $("#formModal")[0].reset()
+                        {#    关闭弹窗#}
+                        $('#myModal').modal('hide')
+                        location.reload()
+                    } else {
+
+                        {#    添加失败提示错误信息#}
+                        error = res.error
+                        {# 把有错误的对应提示提取出来 #}
+                        $.each(error, function (name, data) {
+                            {#console.log(name,data[0])#}
+                            {#                            在对应的输入框下显示错误信息 #}
+                            $("#id_" + name).next().text(data[0])
+                        })
+                    }
+                }
+
+            })
+
+        }
+
+        function doEdit() {
+            $.ajax({
+                url: "/order/edit/" + "?uid=" + EDIT_ID,
+                type: "post",
+                data: $("#formModal").serialize(),
+                dataType: "JSON",
+                success: function (res) {
+                    if (res.status) {
+                        alert("修改成功")
+                        {# $("#formModal")是jquery对象，$("#formModal")[0]是dom对象 #}
+                        {#                        清空表单#}
+                        $("#formModal")[0].reset()
+                        {#    关闭弹窗#}
+                        $('#myModal').modal('hide')
+                        location.reload()
+                    } else {
+                        {# 如果修改失败 #}
+                        {# 如果情况是，要编辑的该条数据不存在，则提示该数据已不存在【多线程情况】 #}
+                        if (res.tips) {
+                            alert(res.tips)
+                        } else {
+                            {# 如果是数据存在，但修改失败 #}
+                            {#    编辑失败提示错误信息#}
+                            error = res.error
+                            {# 把有错误的对应提示提取出来 #}
+                            $.each(error, function (name, data) {
+                                {# 在对应的输入框下显示错误信息 #}
+                                $("#id_" + name).next().text(data[0])
+                            })
+                        }
+
+                    }
+                }
+
+            })
+
+        }
+
+        function bindBtnDeleteEvent() {
+            $(".btnDelete").click(function () {
+                $('#deleteMyModal').modal('show')
+                DELETE_ID = $(this).attr("uid")
+
+            });
+        }
+
+        function bindBtnConfirmDeleteEvent() {
+            $("#btnConfirmDelete").click(function () {
+                $.ajax({
+                    url: "/order/delete/",
+                    type: "GET",
+                    data: {
+                        uid: DELETE_ID
+                    },
+                    dataType: "JSON",
+                    success: function (res) {
+                        if (res.status) {
+                            {# JS删除 #}
+                            {# 取消弹窗 #}
+                            {#                            $('#deleteMyModal').modal('hide')#}
+                            {#    将页面上的一行删掉 #}
+                            {#                            $("tr[uid='"+DELETE_ID+"']").remove()#}
+                            {#    将记录的删除id清空#}
+                            {#                            DELETE_ID = 0#}
+
+                            {#                            页面刷新来页面删除某行 #}
+                            location.reload()
+                        } else {
+                            alert(res.error)
+                        }
+                    }
+                })
+
+            });
+        }
+
+        function bindBtnDetailEvent() {
+            $(".btnEdit").click(function () {
+                {# 每次点击某行的编辑时，先对弹窗清空，以免某行数据获取不到，窜用了上次点击编辑的那行数据 #}
+                $("#formModal")[0].reset()
+                {# 获取当前行的id #}
+                var uid = $(this).attr("uid")
+                EDIT_ID = uid
+                {# 发送请求获取当前行的数据 #}
+                $.ajax({
+                    url: "/order/detail/",
+                    type: "GET",
+                    data: {
+                        uid: uid
+                    },
+                    success: function (res) {
+                        if (res.data.status) {
+                            {# 将获取到的对象赋值到弹窗输入框中 #}
+                            $.each(res.data, function (name, value) {
+                                $("#id_" + name).val(value)
+                            })
+                            {#在获取对象成功后才显示弹窗 #}
+                            {#改变弹窗标题 #}
+                            $('#myModalLabel').text("编辑")
+
+                            {#显示弹窗 #}
+                            $('#myModal').modal('show')
+                        } else {
+                            alert(res.error)
+                        }
+                    }
+                })
+
+
+            })
+
+        }
+
+    </script>
+
+{% endblock %}
